@@ -1,0 +1,3 @@
+com/jpomm/schedulerbase/config/ShedLockConfig.class
+com/jpomm/schedulerbase/jobs/SampleScheduledJobs.class
+com/jpomm/schedulerbase/SchedulerBaseApplication.class
