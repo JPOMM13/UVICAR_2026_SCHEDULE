@@ -1,25 +1,30 @@
-# scheduler-base
+# UVICAR 2026 Scheduler + API (tTransmisiones)
 
-Base Spring Boot (Java 17) con:
-- `@Scheduled` (cada 5 min y 2 veces al día)
-- **ShedLock** para evitar ejecuciones duplicadas si corres varias instancias/pods
-- H2 en memoria solo para demo (cambia a tu DB real en prod)
+## Endpoint (sin parámetros)
+- `GET /api/transmissions`
 
-## Ejecutar
+La consulta calcula la ventana de tiempo con la hora actual del **SQL Server** (`SYSDATETIME()`), sin parámetros de entrada.
+
+## Configuración rápida (SQL Server)
+La conexión se configura en `src/main/resources/application.properties`.
+
+Opcionales (puedes ajustar en el mismo `application.properties`):
+- `uvicar.transmissions.table` (default: `tTransmisiones`)
+- `uvicar.transmissions.last-minutes` (default: `10`)
+- `uvicar.transmissions.top` (default: `200`)
+- `jobs.seed.enabled` (default: `true`)
+
+## Run
 ```bash
 mvn spring-boot:run
 ```
 
-## Cambiar horarios
-Edita `src/main/resources/application.yml`:
+## Nota
+- `spring.sql.init.mode=never` para que NO intente ejecutar `schema.sql`.
 
-- `jobs.sample.every5min-cron`
-- `jobs.sample.twiceDaily-cron`
-- `jobs.timezone`
+## Seed de data (importante)
+Si tu BD tiene triggers/vistas con referencias a columnas que ya no existen, puedes ver errores tipo:
+`Invalid column name '...'` aunque el INSERT no mencione esa columna.
 
-Ejemplo (cada 10 min):
-```yaml
-jobs:
-  sample:
-    every5min-cron: "0 */10 * * * *"
-```
+En ese caso, el job de seed se deshabilita automáticamente para no spamear logs.
+Tienes un script de diagnóstico en: `docs/DB_DIAG.sql`.
