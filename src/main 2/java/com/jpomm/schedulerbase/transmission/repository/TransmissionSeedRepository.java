@@ -20,10 +20,6 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 import java.util.StringJoiner;
-import com.jpomm.schedulerbase.transmission.repository.TransmissionTemplateProvider;
-import com.jpomm.schedulerbase.transmission.repository.TransmissionTemplateRow;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 @Repository
 public class TransmissionSeedRepository {
@@ -33,32 +29,16 @@ public class TransmissionSeedRepository {
     private final boolean disableTriggersDuringSeed;
     private final Random random = new Random();
 
-    private final TransmissionTemplateProvider templateProvider;
-
-    @Value("${jobs.seed.use-templates:true}")
-    private boolean useTemplates;
-
-    @Value("${jobs.seed.templates.location:classpath:seed/transmission-templates.json}")
-    private String templatesLocation;
-
-    @Value("${jobs.seed.allowed-cod-uni:24794,19207,-31865,32019,23737}")
-    private String allowedCodUniCsv;
-
-    private volatile Set<Integer> allowedCodUni;
-
-
     private volatile String insertSql;
     private volatile List<String> columnsUsed;
     private volatile Map<String, ColumnMeta> columnMeta;
 
     public TransmissionSeedRepository(
             final JdbcTemplate jdbcTemplate,
-            final TransmissionTemplateProvider templateProvider,
             @Value("${uvicar.transmissions.table:tTransmisiones}") final String tableName,
             @Value("${jobs.seed.disable-triggers:true}") final boolean disableTriggersDuringSeed
     ) {
         this.jdbc = new NamedParameterJdbcTemplate(Objects.requireNonNull(jdbcTemplate));
-        this.templateProvider = Objects.requireNonNull(templateProvider);
         this.tableName = Objects.requireNonNull(tableName);
         this.disableTriggersDuringSeed = disableTriggersDuringSeed;
     }
@@ -92,152 +72,7 @@ public class TransmissionSeedRepository {
         }
     }
 
-    
-
-    private Set<Integer> allowedCodUni() {
-        if (allowedCodUni != null) return allowedCodUni;
-
-        synchronized (this) {
-            if (allowedCodUni != null) return allowedCodUni;
-
-            allowedCodUni = Arrays.stream(allowedCodUniCsv.split(","))
-                    .map(String::trim)
-                    .filter(s -> !s.isEmpty())
-                    .map(Integer::valueOf)
-                    .collect(Collectors.toSet());
-
-            return allowedCodUni;
-        }
-    }
-
     private MapSqlParameterSource buildRowParamsFiltered() {
-        if (!useTemplates) {
-            return buildRowParamsFilteredRandomOriginal();
-        }
-
-        ensureInsertSqlInitialized();
-
-        final Set<Integer> allowed = allowedCodUni();
-        final List<Integer> allowedList = new ArrayList<>(allowed);
-        if (allowedList.isEmpty()) {
-            return buildRowParamsFilteredRandomOriginal();
-        }
-
-        final Integer codUni = allowedList.get(random.nextInt(allowedList.size()));
-
-        final List<TransmissionTemplateRow> any = templateProvider.load(templatesLocation);
-        if (any == null || any.isEmpty()) {
-            return buildRowParamsFilteredRandomOriginal();
-        }
-
-        final Map<Integer, List<TransmissionTemplateRow>> map = templateProvider.byCodUni(templatesLocation);
-        final List<TransmissionTemplateRow> rowsForCod = map != null ? map.get(codUni) : null;
-
-        final TransmissionTemplateRow t = (rowsForCod != null && !rowsForCod.isEmpty())
-                ? rowsForCod.get(random.nextInt(rowsForCod.size()))
-                : any.get(random.nextInt(any.size()));
-
-        // Fechas recalculadas para "ahora" (manteniendo orden lógico)
-        final LocalDateTime now = LocalDateTime.now();
-        final LocalDateTime fecMen = now.minusSeconds(random.nextInt(120));
-        final LocalDateTime fecPro = fecMen.plusSeconds(5 + random.nextInt(10));
-        final LocalDateTime fecCom = fecPro.plusSeconds(5 + random.nextInt(25));
-
-        final MapSqlParameterSource p = new MapSqlParameterSource();
-
-        // IMPORTANTE: tu tabla usa dFecCom/dFecMen/dFecPro
-        p.addValue("dFecCom", Timestamp.valueOf(fecCom));
-        p.addValue("dFecMen", Timestamp.valueOf(fecMen));
-        p.addValue("dFecPro", Timestamp.valueOf(fecPro));
-
-        // Lat/Lon con jitter leve (fiel al Excel, pero sin ser idéntico siempre)
-        addDecimalClamped(p, "nLat", jitterDecimal(t.nLat(), 0.00030, 8));
-        addDecimalClamped(p, "nLon", jitterDecimal(t.nLon(), 0.00030, 8));
-
-        // Vel/Rumbo con jitter controlado
-        addIntClamped(p, "nVel", jitterInt(t.nVel(), 0, 120, 6));
-        addIntClamped(p, "nRumbo", mod360(jitterInt(t.nRumbo(), 0, 359, 12)));
-
-        // Altitud con leve variación
-        addDecimalClamped(p, "nAlt", jitterDecimal(t.nAlt(), 3.0, 2));
-
-        // Mantener SIEMPRE las 5 "placas" vía nCodUni
-        addIntClamped(p, "nCodUni", t.nCodUni() != null ? t.nCodUni() : codUni);
-
-        // En cerco / sat / dur / distancia
-        if (columnsUsed.contains("nEnCerco")) addIntClamped(p, "nEnCerco", safeInt(t.nEnCerco(), 0, 1));
-        if (columnsUsed.contains("nNumSat")) addIntClamped(p, "nNumSat", safeInt(t.nNumSat(), 3, 20));
-        if (columnsUsed.contains("nDurEve")) addIntClamped(p, "nDurEve", safeInt(t.nDurEve(), 0, 3600));
-        if (columnsUsed.contains("nDist")) addDecimalClamped(p, "nDist", jitterDecimal(t.nDist(), 0.20, 2));
-
-        // Combustible / batería
-        if (columnsUsed.contains("nComb")) addDecimalClamped(p, "nComb", jitterDecimal(t.nComb(), 0.50, 2));
-        if (columnsUsed.contains("nCombReal")) addDecimalClamped(p, "nCombReal", jitterDecimal(t.nCombReal(), 0.50, 2));
-        if (columnsUsed.contains("nBatPrin")) addDecimalClamped(p, "nBatPrin", jitterDecimal(t.nBatPrin(), 0.30, 2));
-        if (columnsUsed.contains("nBatResp")) addDecimalClamped(p, "nBatResp", jitterDecimal(t.nBatResp(), 0.20, 2));
-
-        // Razones / ruta
-        if (columnsUsed.contains("nRazTra")) addIntClamped(p, "nRazTra", safeInt(t.nRazTra(), 0, 9999));
-        if (columnsUsed.contains("nRazTraPro")) addIntClamped(p, "nRazTraPro", safeInt(t.nRazTraPro(), 0, 9999));
-        if (columnsUsed.contains("nCodCabRut")) addIntClamped(p, "nCodCabRut", safeInt(t.nCodCabRut(), 0, 9999));
-
-        // Strings del Excel (si existen en tu tabla)
-        if (columnsUsed.contains("cRef") && t.cRef() != null) p.addValue("cRef", t.cRef());
-        if (columnsUsed.contains("cEstEnt") && t.cEstEnt() != null) p.addValue("cEstEnt", t.cEstEnt());
-        if (columnsUsed.contains("cEstSal") && t.cEstSal() != null) p.addValue("cEstSal", t.cEstSal());
-        if (columnsUsed.contains("cDallas") && t.cDallas() != null) p.addValue("cDallas", t.cDallas());
-        if (columnsUsed.contains("cEntSal") && t.cEntSal() != null) p.addValue("cEntSal", t.cEntSal());
-
-        // Alarmas (mantener patrón)
-        if (columnsUsed.contains("nAlarLei")) {
-            final boolean alarLei = t.nAlarLei() != null && t.nAlarLei();
-            p.addValue("nAlarLei", alarLei);
-            if (columnsUsed.contains("dAlarLeiFecHor")) {
-                p.addValue("dAlarLeiFecHor", alarLei ? Timestamp.valueOf(fecMen) : null);
-            }
-        }
-        if (columnsUsed.contains("nAlarCodUsu")) {
-            if (t.nAlarCodUsu() != null) addIntClamped(p, "nAlarCodUsu", t.nAlarCodUsu());
-            else p.addValue("nAlarCodUsu", null);
-        }
-
-        // opcional: tu caso VARCHAR(1)
-        if (columnsUsed.contains("cFlagQuellaveco")) {
-            p.addValue("cFlagQuellaveco", random.nextBoolean() ? "1" : "0");
-        }
-
-        // Filtrar SOLO columnas del INSERT (orden/consistencia)
-        final MapSqlParameterSource filtered = new MapSqlParameterSource();
-        for (String col : columnsUsed) {
-            filtered.addValue(col, p.hasValue(col) ? p.getValue(col) : null);
-        }
-        return filtered;
-    }
-
-    private int safeInt(final Integer v, final int min, final int max) {
-        if (v == null) return min;
-        return Math.max(min, Math.min(max, v));
-    }
-
-    private int jitterInt(final Integer base, final int min, final int max, final int delta) {
-        final int b = base != null ? base : min;
-        final int j = b + (random.nextInt((delta * 2) + 1) - delta);
-        return Math.max(min, Math.min(max, j));
-    }
-
-    private int mod360(final int v) {
-        int x = v % 360;
-        if (x < 0) x += 360;
-        return x;
-    }
-
-    private BigDecimal jitterDecimal(final BigDecimal base, final double delta, final int scale) {
-        if (base == null) return null;
-        final double j = (random.nextDouble() * 2.0 * delta) - delta;
-        return base.add(BigDecimal.valueOf(j)).setScale(scale, RoundingMode.HALF_UP);
-    }
-
-private MapSqlParameterSource buildRowParamsFilteredRandomOriginal() {
         final LocalDateTime now = LocalDateTime.now();
         final LocalDateTime fecCom = now.minusSeconds(random.nextInt(60 * 60));
         final LocalDateTime fecMen = fecCom.plusSeconds(random.nextInt(10));

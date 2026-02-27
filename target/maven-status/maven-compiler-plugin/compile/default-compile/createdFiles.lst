@@ -3,6 +3,7 @@ com/jpomm/schedulerbase/transmission/service/TransmissionQueryServiceImpl.class
 com/jpomm/schedulerbase/transmission/facade/TransmissionFacade.class
 com/jpomm/schedulerbase/transmission/dto/TransmissionResponse.class
 com/jpomm/schedulerbase/jobs/SampleScheduledJobs.class
+com/jpomm/schedulerbase/transmission/repository/TransmissionSeedRepository$ColumnMeta.class
 com/jpomm/schedulerbase/transmission/repository/TransmissionQueryRepository$TransmissionRowMapper.class
 com/jpomm/schedulerbase/config/ShedLockConfig.class
 com/jpomm/schedulerbase/transmission/service/TransmissionQueryService.class
