@@ -1,6 +1,12 @@
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/SchedulerBaseApplication.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/config/ShedLockConfig.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/jobs/SampleScheduledJobs.java
+/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/reports/controller/ClientesGrandesReportController.java
+/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/reports/facade/ClientesGrandesReportFacade.java
+/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/reports/facade/ClientesGrandesReportFacadeImpl.java
+/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/reports/repository/ClientesGrandesReportRepository.java
+/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/reports/service/ClientesGrandesReportService.java
+/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/reports/service/ClientesGrandesReportServiceImpl.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/transmission/controller/TransmissionController.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/transmission/dto/TransmissionResponse.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/transmission/facade/TransmissionFacade.java
@@ -8,5 +14,7 @@
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/transmission/jobs/TransmissionSeedJob.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/transmission/repository/TransmissionQueryRepository.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/transmission/repository/TransmissionSeedRepository.java
+/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/transmission/repository/TransmissionTemplateProvider.java
+/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/transmission/repository/TransmissionTemplateRow.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/transmission/service/TransmissionQueryService.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/transmission/service/TransmissionQueryServiceImpl.java
