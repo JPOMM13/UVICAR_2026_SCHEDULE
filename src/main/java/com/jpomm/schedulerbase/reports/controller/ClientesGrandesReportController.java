@@ -23,11 +23,13 @@ public class ClientesGrandesReportController {
     /**
      * GET /api/reports/clientes-grandes/sin-trans-3dias
      * Ejecuta el SP pa_RptUniActSinTrans3Dias_ClientesGrandes y retorna su resultado.
+     * El query param codUsuario se mantiene como opcional por compatibilidad,
+     * pero el procedimiento actual no recibe parámetros.
      */
     @GetMapping("/sin-trans-3dias")
     public List<Map<String, Object>> listUnitsWithoutTransmission3Days(
-            @RequestParam("codUsuario") final int codUsuario
+            @RequestParam(value = "codUsuario", required = false) @SuppressWarnings("unused") final Integer codUsuario
     ) {
-        return reportFacade.listUnitsWithoutTransmission3Days(codUsuario);
+        return reportFacade.listUnitsWithoutTransmission3Days();
     }
 }

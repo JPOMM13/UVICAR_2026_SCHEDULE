@@ -17,7 +17,7 @@ public class ClientesGrandesReportServiceImpl implements ClientesGrandesReportSe
     }
 
     @Override
-    public List<Map<String, Object>> listUnitsWithoutTransmission3Days(final int codUsuario) {
-        return reportRepository.fetchUnitsWithoutTransmission3Days(codUsuario);
+    public List<Map<String, Object>> listUnitsWithoutTransmission3Days() {
+        return reportRepository.fetchUnitsWithoutTransmission3Days();
     }
 }

@@ -26,12 +26,9 @@ public class ClientesGrandesReportRepository {
         this.storedProcedureName = validateStoredProcedureName(storedProcedureName);
     }
 
-    public List<Map<String, Object>> fetchUnitsWithoutTransmission3Days(final int codUsuario) {
-        if (codUsuario <= 0) {
-            throw new IllegalArgumentException("codUsuario must be greater than 0");
-        }
-        final String sql = "EXEC " + storedProcedureName + " @p_codUsuario = ?";
-        return jdbcTemplate.queryForList(sql, codUsuario);
+    public List<Map<String, Object>> fetchUnitsWithoutTransmission3Days() {
+        final String sql = "EXEC " + storedProcedureName;
+        return jdbcTemplate.queryForList(sql);
     }
 
     private static String validateStoredProcedureName(final String name) {

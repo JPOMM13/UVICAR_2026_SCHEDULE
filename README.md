@@ -5,7 +5,7 @@
 - `GET /api/reports/clientes-grandes/sin-trans-3dias?codUsuario={id}`
 
 La consulta calcula la ventana de tiempo con la hora actual del **SQL Server** (`SYSDATETIME()`), sin parámetros de entrada.
-El endpoint de reporte ejecuta el procedimiento almacenado `pa_RptUniActSinTrans3Dias_ClientesGrandes`, enviando `@p_codUsuario`, y devuelve su result set como JSON.
+El endpoint de reporte ejecuta el procedimiento almacenado `pa_RptUniActSinTrans3Dias_ClientesGrandes` sin parámetros y devuelve su result set como JSON.
 
 ## Configuración rápida (SQL Server)
 La conexión se configura en `src/main/resources/application.properties`.

@@ -17,7 +17,7 @@ public class ClientesGrandesReportFacadeImpl implements ClientesGrandesReportFac
     }
 
     @Override
-    public List<Map<String, Object>> listUnitsWithoutTransmission3Days(final int codUsuario) {
-        return reportService.listUnitsWithoutTransmission3Days(codUsuario);
+    public List<Map<String, Object>> listUnitsWithoutTransmission3Days() {
+        return reportService.listUnitsWithoutTransmission3Days();
     }
 }

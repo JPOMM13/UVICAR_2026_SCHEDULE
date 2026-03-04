@@ -44,6 +44,9 @@ public class TransmissionSeedRepository {
     @Value("${jobs.seed.allowed-cod-uni:24794,19207,-31865,32019,23737}")
     private String allowedCodUniCsv;
 
+    @Value("${jobs.seed.report-compatible:true}")
+    private boolean reportCompatibleDates;
+
     private volatile Set<Integer> allowedCodUni;
 
 
@@ -137,9 +140,8 @@ public class TransmissionSeedRepository {
                 ? rowsForCod.get(random.nextInt(rowsForCod.size()))
                 : any.get(random.nextInt(any.size()));
 
-        // Fechas recalculadas para "ahora" (manteniendo orden lógico)
-        final LocalDateTime now = LocalDateTime.now();
-        final LocalDateTime fecMen = now.minusSeconds(random.nextInt(120));
+        final LocalDateTime baseTime = generateBaseTransmissionTime();
+        final LocalDateTime fecMen = baseTime.minusSeconds(10 + random.nextInt(120));
         final LocalDateTime fecPro = fecMen.plusSeconds(5 + random.nextInt(10));
         final LocalDateTime fecCom = fecPro.plusSeconds(5 + random.nextInt(25));
 
@@ -238,10 +240,10 @@ public class TransmissionSeedRepository {
     }
 
 private MapSqlParameterSource buildRowParamsFilteredRandomOriginal() {
-        final LocalDateTime now = LocalDateTime.now();
-        final LocalDateTime fecCom = now.minusSeconds(random.nextInt(60 * 60));
-        final LocalDateTime fecMen = fecCom.plusSeconds(random.nextInt(10));
-        final LocalDateTime fecPro = fecMen.plusSeconds(random.nextInt(10));
+        final LocalDateTime baseTime = generateBaseTransmissionTime();
+        final LocalDateTime fecCom = baseTime;
+        final LocalDateTime fecMen = fecCom.minusSeconds(10 + random.nextInt(120));
+        final LocalDateTime fecPro = fecMen.plusSeconds(5 + random.nextInt(10));
 
         final int vel = random.nextInt(121);
         final int rumbo = random.nextInt(360);
@@ -343,6 +345,17 @@ private MapSqlParameterSource buildRowParamsFilteredRandomOriginal() {
             filtered.addValue(col, p.hasValue(col) ? p.getValue(col) : null);
         }
         return filtered;
+    }
+
+    private LocalDateTime generateBaseTransmissionTime() {
+        if (!reportCompatibleDates) {
+            return LocalDateTime.now().minusSeconds(random.nextInt(60 * 60));
+        }
+        // El reporte de clientes grandes filtra unidades sin transmisión por más de 3 días
+        // y en la vista final exige no superar 1 semana.
+        final int daysBack = 4 + random.nextInt(3); // 4..6 días
+        final int secondsBack = random.nextInt(24 * 60 * 60);
+        return LocalDateTime.now().minusDays(daysBack).minusSeconds(secondsBack);
     }
 
     private String debugParams(final MapSqlParameterSource p) {
