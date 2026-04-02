@@ -20,7 +20,20 @@
   <properties>
     <java.version>17</java.version>
     <shedlock.version>6.4.0</shedlock.version>
+    <spring-cloud-azure.version>5.25.0</spring-cloud-azure.version>
   </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.azure.spring</groupId>
+        <artifactId>spring-cloud-azure-dependencies</artifactId>
+        <version>${spring-cloud-azure.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
     <dependency>
@@ -37,6 +50,11 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.azure.spring</groupId>
+      <artifactId>spring-cloud-azure-starter-keyvault-secrets</artifactId>
     </dependency>
 
     <!-- ShedLock (recommended when running multiple instances/pods) -->

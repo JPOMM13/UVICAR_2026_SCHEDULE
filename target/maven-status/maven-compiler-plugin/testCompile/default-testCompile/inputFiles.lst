@@ -1,1 +1,10 @@
-/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/test/java/com/jpomm/schedulerbase/SchedulerBaseApplicationTests.java
+/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/test/java/com/jpomm/schedulerbase/SchedulerBaseApplicationTest.java
+/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/test/java/com/jpomm/schedulerbase/reports/controller/ClientesGrandesReportControllerTest.java
+/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/test/java/com/jpomm/schedulerbase/reports/facade/ClientesGrandesReportFacadeImplTest.java
+/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/test/java/com/jpomm/schedulerbase/reports/repository/ClientesGrandesReportRepositoryTest.java
+/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/test/java/com/jpomm/schedulerbase/reports/service/ClientesGrandesReportServiceImplTest.java
+/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/test/java/com/jpomm/schedulerbase/transmission/controller/TransmissionControllerTest.java
+/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/test/java/com/jpomm/schedulerbase/transmission/facade/TransmissionFacadeImplTest.java
+/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/test/java/com/jpomm/schedulerbase/transmission/jobs/TransmissionSeedJobTest.java
+/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/test/java/com/jpomm/schedulerbase/transmission/repository/TransmissionQueryRepositoryTest.java
+/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/test/java/com/jpomm/schedulerbase/transmission/service/TransmissionQueryServiceImplTest.java

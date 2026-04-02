@@ -37,7 +37,7 @@ public class TransmissionSeedJob {
     /**
      * Job para insertar data de prueba mientras el API está corriendo.
      */
-    @Scheduled(cron = "${jobs.seed.cron:*/30 * * * * *}", zone = "${jobs.timezone:America/Lima}")
+    // @Scheduled(cron = "${jobs.seed.cron:*/30 * * * * *}", zone = "${jobs.timezone:America/Lima}")
     @SchedulerLock(name = "job_seed_transmissions", lockAtMostFor = "PT25S", lockAtLeastFor = "PT2S")
     public void seed() {
         if (!enabled || runtimeDisabled.get()) {
