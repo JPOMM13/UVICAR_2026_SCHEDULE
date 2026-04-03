@@ -16,6 +16,7 @@
 *.nar
 *.ear
 *.zip
+*.tar
 *.tar.gz
 *.rar
 
@@ -28,3 +29,9 @@ replay_pid*
 
 # Build output
 target/
+
+# artifacts
+*.tar
+
+# artifacts
+*.tar
