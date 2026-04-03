@@ -1,0 +1,130 @@
+# =========================================================
+# 1. Namespace
+# Sirve para aislar este microservicio del resto del cluster.
+# Todos los recursos de este archivo viven dentro de "uvischedule".
+# =========================================================
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: uvischedule
+---
+# =========================================================
+# 2. ConfigMap
+# Guarda configuracion NO sensible del microservicio.
+# Aqui van flags, puertos, endpoint del Key Vault y valores
+# que pueden cambiar sin reconstruir la imagen Docker.
+# =========================================================
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: uvischedule-config
+  namespace: uvischedule
+data:
+  SERVER_PORT: "${SERVER_PORT:-8081}"
+  AZURE_KEYVAULT_ENABLED: "${AZURE_KEYVAULT_ENABLED:-true}"
+  AZURE_KEYVAULT_ENDPOINT: "${AZURE_KEYVAULT_ENDPOINT:-https://kv-uvicar-prd-pe.vault.azure.net/}"
+  UVICAR_DB_USERNAME: "${UVICAR_DB_USERNAME:-reporte}"
+  JOBS_SEED_ENABLED: "${JOBS_SEED_ENABLED:-true}"
+---
+# =========================================================
+# 3. Secret
+# Guarda configuracion sensible.
+# Para on-premise fuera de Azure, se usa un Service Principal
+# para autenticarse contra Azure Key Vault.
+# Este archivo esta pensado para aplicarse con `envsubst`,
+# tomando las variables YA exportadas en el servidor.
+# =========================================================
+apiVersion: v1
+kind: Secret
+metadata:
+  name: uvischedule-azure-auth
+  namespace: uvischedule
+type: Opaque
+stringData:
+  AZURE_CLIENT_ID: "${AZURE_CLIENT_ID}"
+  AZURE_TENANT_ID: "${AZURE_TENANT_ID}"
+  AZURE_CLIENT_SECRET: "${AZURE_CLIENT_SECRET}"
+---
+# =========================================================
+# 4. Deployment
+# Define como corre el microservicio:
+# - cuantas replicas existen
+# - que imagen Docker se usa
+# - que variables recibe
+# - probes de salud para K3s/Kubernetes
+# - limites y requests de CPU/Memoria
+# =========================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uvischedule
+  namespace: uvischedule
+  labels:
+    app: uvischedule
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: uvischedule
+  template:
+    metadata:
+      labels:
+        app: uvischedule
+    spec:
+      containers:
+        - name: uvischedule
+          # Esta imagen debe existir previamente en el nodo K3s,
+          # importada con `sudo k3s ctr images import ...`
+          image: uvischedule:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8081
+          envFrom:
+            - configMapRef:
+                name: uvischedule-config
+            - secretRef:
+                name: uvischedule-azure-auth
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+            initialDelaySeconds: 45
+            periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+---
+# =========================================================
+# 5. Service
+# Expone el Deployment dentro del cluster con una direccion
+# estable. Si luego agregas un Ingress, este Service sera
+# el destino del trafico HTTP.
+# =========================================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: uvischedule
+  namespace: uvischedule
+spec:
+  selector:
+    app: uvischedule
+  ports:
+    - name: http
+      port: 8081
+      targetPort: http
+  type: ClusterIP
