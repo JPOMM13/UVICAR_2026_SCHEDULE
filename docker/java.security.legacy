@@ -1,0 +1,5 @@
+# Habilita TLS legacy para clientes Java en escenarios controlados.
+# Se mantiene SSLv3 y otros algoritmos inseguros deshabilitados,
+# pero se permite negociar TLSv1/TLSv1.1 para compatibilidad con
+# instancias viejas de SQL Server.
+jdk.tls.disabledAlgorithms=SSLv3, RC4, DES, MD5withRSA, DH keySize < 1024, EC keySize < 224, 3DES_EDE_CBC, anon, NULL, ECDH

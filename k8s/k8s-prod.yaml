@@ -25,6 +25,9 @@ data:
   AZURE_KEYVAULT_ENDPOINT: "${AZURE_KEYVAULT_ENDPOINT}"
   UVICAR_DB_USERNAME: "${UVICAR_DB_USERNAME}"
   JOBS_SEED_ENABLED: "${JOBS_SEED_ENABLED}"
+  # Activa un modo de compatibilidad para SQL Server 2014/TLS 1.0.
+  # Usarlo solo mientras no se pueda actualizar el servidor SQL a TLS 1.2.
+  SQLSERVER_TLS_LEGACY_ENABLED: "true"
 ---
 # =========================================================
 # 3. Deployment

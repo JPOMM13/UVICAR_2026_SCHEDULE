@@ -64,6 +64,18 @@ docker run --rm -p 8081:8081 \
   uvischedule:latest
 ```
 
+### Compatibilidad con SQL Server 2014 / TLS 1.0
+Este proyecto incluye un modo legacy opcional para clientes Java 17 que necesiten conectarse a una instancia vieja de SQL Server que aun negocia `TLS 1.0`.
+
+En despliegue on-premise actual, el `ConfigMap` de Kubernetes lo deja activado con:
+
+```bash
+SQLSERVER_TLS_LEGACY_ENABLED=true
+```
+
+Esto reactiva protocolos TLS antiguos del lado cliente dentro del contenedor.
+Es una solucion de compatibilidad temporal; la solucion correcta sigue siendo actualizar SQL Server/Windows para soportar `TLS 1.2`.
+
 ## K3s / Kubernetes
 Se incluye un manifiesto unico de produccion en [k8s-prod.yaml](/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/k8s/k8s-prod.yaml) con `Namespace`, `ConfigMap`, `Deployment` y `Service`, todo comentado.
 
