@@ -3,9 +3,13 @@
 ## Endpoint (sin parámetros)
 - `GET /api/transmissions`
 - `GET /api/reports/clientes-grandes/sin-trans-3dias?codUsuario={id}`
+- `GET /api/reports/unidades/sin-transm-mtcosinrg-15min-a-2hrs`
+- `GET /api/reports/unidades/sin-transm-mtcosinrg-2hrs-a-2dias`
+- `GET /api/reports/unidades/sin-transm-mtcosinrg-mas-de-2dias`
 
 La consulta calcula la ventana de tiempo con la hora actual del **SQL Server** (`SYSDATETIME()`), sin parámetros de entrada.
 El endpoint de reporte ejecuta el procedimiento almacenado `pa_RptUniActSinTrans3Dias_ClientesGrandes` sin parámetros y devuelve su result set como JSON.
+Los endpoints de unidades sin transmisión MTC/OSINERG ejecutan `pa_uniSinTransm_MTCOSINRG_15MinA2Hrs`, `pa_uniSinTransm_MTCOSINRG_2HrsA2Dias` y `pa_uniSinTransm_MTCOSINRG_MasDe2Dias` sin parámetros y devuelven su result set como JSON.
 
 ## Configuración rápida (SQL Server)
 La conexión se resuelve desde Azure Key Vault o variables de entorno, según el entorno.
@@ -15,6 +19,9 @@ Opcionales (puedes ajustar en el mismo `application.properties`):
 - `uvicar.transmissions.last-minutes` (default: `10`)
 - `uvicar.transmissions.top` (default: `200`)
 - `uvicar.reports.clientes-grandes.sin-trans-3dias.sp` (default: `pa_RptUniActSinTrans3Dias_ClientesGrandes`)
+- `uvicar.reports.unidades.sin-transm-mtcosinrg-15min-a-2hrs.sp` (default: `pa_uniSinTransm_MTCOSINRG_15MinA2Hrs`)
+- `uvicar.reports.unidades.sin-transm-mtcosinrg-2hrs-a-2dias.sp` (default: `pa_uniSinTransm_MTCOSINRG_2HrsA2Dias`)
+- `uvicar.reports.unidades.sin-transm-mtcosinrg-mas-de-2dias.sp` (default: `pa_uniSinTransm_MTCOSINRG_MasDe2Dias`)
 - `jobs.seed.enabled` (default: `true`)
 
 ## Run
@@ -132,6 +139,9 @@ Ejemplos:
 curl http://190.119.213.62:30081/actuator/health
 curl http://190.119.213.62:30081/api/transmissions
 curl "http://190.119.213.62:30081/api/reports/clientes-grandes/sin-trans-3dias?codUsuario=1"
+curl http://190.119.213.62:30081/api/reports/unidades/sin-transm-mtcosinrg-15min-a-2hrs
+curl http://190.119.213.62:30081/api/reports/unidades/sin-transm-mtcosinrg-2hrs-a-2dias
+curl http://190.119.213.62:30081/api/reports/unidades/sin-transm-mtcosinrg-mas-de-2dias
 ```
 
 Si no responde desde fuera, revisa que el firewall o NAT del servidor permita el puerto `30081/TCP`.

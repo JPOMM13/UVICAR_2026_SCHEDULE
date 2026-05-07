@@ -14,6 +14,7 @@
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/notifications/service/LoggingEventEmailSender.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/notifications/service/SmtpEventEmailSender.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/reports/controller/ClientesGrandesReportController.java
+/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/reports/controller/UnidadesSinTransmisionReportController.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/reports/facade/ClientesGrandesReportFacade.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/reports/facade/ClientesGrandesReportFacadeImpl.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/reports/repository/ClientesGrandesReportRepository.java

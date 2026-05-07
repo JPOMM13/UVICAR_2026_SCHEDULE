@@ -20,4 +20,19 @@ public class ClientesGrandesReportServiceImpl implements ClientesGrandesReportSe
     public List<Map<String, Object>> listUnitsWithoutTransmission3Days() {
         return reportRepository.fetchUnitsWithoutTransmission3Days();
     }
+
+    @Override
+    public List<Map<String, Object>> listMtcOsinergUnitsWithoutTransmission15MinutesTo2Hours() {
+        return reportRepository.fetchMtcOsinergUnitsWithoutTransmission15MinutesTo2Hours();
+    }
+
+    @Override
+    public List<Map<String, Object>> listMtcOsinergUnitsWithoutTransmission2HoursTo2Days() {
+        return reportRepository.fetchMtcOsinergUnitsWithoutTransmission2HoursTo2Days();
+    }
+
+    @Override
+    public List<Map<String, Object>> listMtcOsinergUnitsWithoutTransmissionMoreThan2Days() {
+        return reportRepository.fetchMtcOsinergUnitsWithoutTransmissionMoreThan2Days();
+    }
 }

@@ -33,4 +33,40 @@ class ClientesGrandesReportServiceImplTest {
         assertThat(actual).isSameAs(expected);
         verify(repository).fetchUnitsWithoutTransmission3Days();
     }
+
+    @Test
+    void listMtcOsinergUnitsWithoutTransmission15MinutesTo2HoursDelegatesToRepository() {
+        final List<Map<String, Object>> expected = List.of();
+        when(repository.fetchMtcOsinergUnitsWithoutTransmission15MinutesTo2Hours()).thenReturn(expected);
+
+        final List<Map<String, Object>> actual =
+                service.listMtcOsinergUnitsWithoutTransmission15MinutesTo2Hours();
+
+        assertThat(actual).isSameAs(expected);
+        verify(repository).fetchMtcOsinergUnitsWithoutTransmission15MinutesTo2Hours();
+    }
+
+    @Test
+    void listMtcOsinergUnitsWithoutTransmission2HoursTo2DaysDelegatesToRepository() {
+        final List<Map<String, Object>> expected = List.of();
+        when(repository.fetchMtcOsinergUnitsWithoutTransmission2HoursTo2Days()).thenReturn(expected);
+
+        final List<Map<String, Object>> actual =
+                service.listMtcOsinergUnitsWithoutTransmission2HoursTo2Days();
+
+        assertThat(actual).isSameAs(expected);
+        verify(repository).fetchMtcOsinergUnitsWithoutTransmission2HoursTo2Days();
+    }
+
+    @Test
+    void listMtcOsinergUnitsWithoutTransmissionMoreThan2DaysDelegatesToRepository() {
+        final List<Map<String, Object>> expected = List.of();
+        when(repository.fetchMtcOsinergUnitsWithoutTransmissionMoreThan2Days()).thenReturn(expected);
+
+        final List<Map<String, Object>> actual =
+                service.listMtcOsinergUnitsWithoutTransmissionMoreThan2Days();
+
+        assertThat(actual).isSameAs(expected);
+        verify(repository).fetchMtcOsinergUnitsWithoutTransmissionMoreThan2Days();
+    }
 }

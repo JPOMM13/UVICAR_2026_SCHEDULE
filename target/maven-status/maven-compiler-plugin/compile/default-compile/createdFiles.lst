@@ -26,6 +26,7 @@ com/jpomm/schedulerbase/notifications/jobs/EventEmailNotificationJob.class
 com/jpomm/schedulerbase/transmission/repository/TransmissionTemplateRow.class
 com/jpomm/schedulerbase/notifications/repository/EventEmailNotificationRepository.class
 com/jpomm/schedulerbase/notifications/facade/EventEmailNotificationFacadeImpl.class
+com/jpomm/schedulerbase/reports/controller/UnidadesSinTransmisionReportController.class
 com/jpomm/schedulerbase/notifications/service/EventEmailNotificationService.class
 com/jpomm/schedulerbase/reports/repository/ClientesGrandesReportRepository.class
 com/jpomm/schedulerbase/transmission/repository/TransmissionQueryRepository$TransmissionRowMapper.class

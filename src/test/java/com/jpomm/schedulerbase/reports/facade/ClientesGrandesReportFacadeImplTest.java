@@ -33,4 +33,40 @@ class ClientesGrandesReportFacadeImplTest {
         assertThat(actual).isSameAs(expected);
         verify(service).listUnitsWithoutTransmission3Days();
     }
+
+    @Test
+    void listMtcOsinergUnitsWithoutTransmission15MinutesTo2HoursDelegatesToService() {
+        final List<Map<String, Object>> expected = List.of();
+        when(service.listMtcOsinergUnitsWithoutTransmission15MinutesTo2Hours()).thenReturn(expected);
+
+        final List<Map<String, Object>> actual =
+                facade.listMtcOsinergUnitsWithoutTransmission15MinutesTo2Hours();
+
+        assertThat(actual).isSameAs(expected);
+        verify(service).listMtcOsinergUnitsWithoutTransmission15MinutesTo2Hours();
+    }
+
+    @Test
+    void listMtcOsinergUnitsWithoutTransmission2HoursTo2DaysDelegatesToService() {
+        final List<Map<String, Object>> expected = List.of();
+        when(service.listMtcOsinergUnitsWithoutTransmission2HoursTo2Days()).thenReturn(expected);
+
+        final List<Map<String, Object>> actual =
+                facade.listMtcOsinergUnitsWithoutTransmission2HoursTo2Days();
+
+        assertThat(actual).isSameAs(expected);
+        verify(service).listMtcOsinergUnitsWithoutTransmission2HoursTo2Days();
+    }
+
+    @Test
+    void listMtcOsinergUnitsWithoutTransmissionMoreThan2DaysDelegatesToService() {
+        final List<Map<String, Object>> expected = List.of();
+        when(service.listMtcOsinergUnitsWithoutTransmissionMoreThan2Days()).thenReturn(expected);
+
+        final List<Map<String, Object>> actual =
+                facade.listMtcOsinergUnitsWithoutTransmissionMoreThan2Days();
+
+        assertThat(actual).isSameAs(expected);
+        verify(service).listMtcOsinergUnitsWithoutTransmissionMoreThan2Days();
+    }
 }

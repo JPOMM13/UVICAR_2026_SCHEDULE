@@ -7,6 +7,7 @@ com/jpomm/schedulerbase/SchedulerBaseApplicationTests.class
 com/jpomm/schedulerbase/reports/repository/ClientesGrandesReportRepositoryTest.class
 com/jpomm/schedulerbase/transmission/jobs/TransmissionSeedJobTest.class
 com/jpomm/schedulerbase/reports/service/ClientesGrandesReportServiceImplTest.class
+com/jpomm/schedulerbase/reports/controller/UnidadesSinTransmisionReportControllerTest.class
 com/jpomm/schedulerbase/reports/facade/ClientesGrandesReportFacadeImplTest.class
 com/jpomm/schedulerbase/transmission/facade/TransmissionFacadeImplTest.class
 com/jpomm/schedulerbase/transmission/service/TransmissionQueryServiceImplTest.class
