@@ -21,6 +21,9 @@ public class EventEmailNotificationJob {
     @Value("${jobs.notifications.event-email.enabled:true}")
     private boolean enabled;
 
+    @Value("${jobs.notifications.event-email.raz-tra:44}")
+    private int razTra;
+
     public EventEmailNotificationJob(final EventEmailNotificationFacade facade) {
         this.facade = Objects.requireNonNull(facade);
     }
@@ -32,7 +35,7 @@ public class EventEmailNotificationJob {
             return;
         }
 
-        final EventEmailJobResult result = facade.processPendingNotifications();
+        final EventEmailJobResult result = facade.processPendingNotifications(razTra);
         LOGGER.info("[event-email] Job finished. fetchedCount={}, sentCount={}", result.fetchedCount(), result.sentCount());
     }
 }

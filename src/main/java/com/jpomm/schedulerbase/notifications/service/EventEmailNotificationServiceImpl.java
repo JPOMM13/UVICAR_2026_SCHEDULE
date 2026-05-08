@@ -27,13 +27,13 @@ public class EventEmailNotificationServiceImpl implements EventEmailNotification
     }
 
     @Override
-    public List<PendingEventEmailNotification> listPendingNotifications() {
-        return repository.findPendingNotifications();
+    public List<PendingEventEmailNotification> listPendingNotifications(final int razTra) {
+        return repository.findPendingNotifications(razTra);
     }
 
     @Override
-    public EventEmailJobResult processPendingNotifications() {
-        final List<PendingEventEmailNotification> pendingNotifications = repository.findPendingNotifications();
+    public EventEmailJobResult processPendingNotifications(final int razTra) {
+        final List<PendingEventEmailNotification> pendingNotifications = repository.findPendingNotifications(razTra);
         if (pendingNotifications.isEmpty()) {
             LOGGER.info("[event-email] No pending notifications found.");
             return new EventEmailJobResult(0, 0);
@@ -41,11 +41,19 @@ public class EventEmailNotificationServiceImpl implements EventEmailNotification
 
         int sentCount = 0;
         for (final PendingEventEmailNotification notification : pendingNotifications) {
-            emailSender.send(notification);
-            sentCount++;
+            try {
+                emailSender.send(notification);
+                sentCount++;
+            } catch (RuntimeException exception) {
+                LOGGER.error("[event-email] Failed to send notification to={} plate={} event={}",
+                        notification.recipientEmail(),
+                        notification.plate(),
+                        notification.event(),
+                        exception);
+            }
         }
 
-        LOGGER.info("[event-email] Processed {} pending notifications.", sentCount);
+        LOGGER.info("[event-email] Processed {} pending notifications. sentCount={}", pendingNotifications.size(), sentCount);
         return new EventEmailJobResult(pendingNotifications.size(), sentCount);
     }
 }

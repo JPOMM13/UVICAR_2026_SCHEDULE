@@ -1,5 +1,7 @@
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/test/java/com/jpomm/schedulerbase/SchedulerBaseApplicationTest.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/test/java/com/jpomm/schedulerbase/SchedulerBaseApplicationTests.java
+/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/test/java/com/jpomm/schedulerbase/notifications/controller/EventEmailNotificationControllerTest.java
+/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/test/java/com/jpomm/schedulerbase/notifications/repository/EventEmailNotificationRepositoryTest.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/test/java/com/jpomm/schedulerbase/notifications/service/EventEmailNotificationServiceImplTest.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/test/java/com/jpomm/schedulerbase/notifications/service/SmtpEventEmailSenderTest.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/test/java/com/jpomm/schedulerbase/reports/controller/ClientesGrandesReportControllerTest.java

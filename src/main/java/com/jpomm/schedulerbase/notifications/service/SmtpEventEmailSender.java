@@ -10,8 +10,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Objects;
 
 @Component
@@ -19,8 +18,6 @@ import java.util.Objects;
 public class SmtpEventEmailSender implements EventEmailSender {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SmtpEventEmailSender.class);
-    private static final DateTimeFormatter DATE_TIME_FORMATTER =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.of("America/Lima"));
 
     private final JavaMailSender mailSender;
     private final String fromAddress;
@@ -68,10 +65,15 @@ public class SmtpEventEmailSender implements EventEmailSender {
 
     @Override
     public void send(final PendingEventEmailNotification notification) {
-        LOGGER.info("[event-email] Sending SMTP email to={} unit={} eventCode={} via host={} port={} from={}",
-                maskEmail(notification.recipientEmail()),
-                notification.unitCode(),
-                notification.triggeringEventCode(),
+        final List<String> recipients = notification.recipientEmails();
+        if (recipients.isEmpty()) {
+            throw new IllegalArgumentException("No recipient email configured for plate " + notification.plate());
+        }
+
+        LOGGER.info("[event-email] Sending SMTP email to={} plate={} event={} via host={} port={} from={}",
+                maskEmails(recipients),
+                notification.plate(),
+                notification.event(),
                 safeValue(smtpHost),
                 smtpPort,
                 maskEmail(fromAddress));
@@ -80,45 +82,49 @@ public class SmtpEventEmailSender implements EventEmailSender {
         if (!fromAddress.isEmpty()) {
             message.setFrom(fromAddress);
         }
-        message.setTo(notification.recipientEmail());
+        message.setTo(recipients.toArray(String[]::new));
         message.setSubject(subjectFor(notification));
         message.setText(bodyFor(notification));
         mailSender.send(message);
 
-        LOGGER.info("[event-email] SMTP email dispatched successfully to={} unit={}",
-                maskEmail(notification.recipientEmail()),
-                notification.unitCode());
+        LOGGER.info("[event-email] SMTP email dispatched successfully to={} plate={}",
+                maskEmails(recipients),
+                notification.plate());
     }
 
     private String subjectFor(final PendingEventEmailNotification notification) {
-        return String.format(subjectTemplate, notification.unitCode());
+        return String.format(subjectTemplate, notification.plate());
     }
 
     private String bodyFor(final PendingEventEmailNotification notification) {
-        final String occurredAt = notification.eventOccurredAt() == null
-                ? "No informado"
-                : DATE_TIME_FORMATTER.format(notification.eventOccurredAt().toInstant());
+        final String mapsUrl = notification.googleMapsUrl();
+        final String mapsLine = mapsUrl.isBlank() ? "" : "\nMapa: " + mapsUrl;
 
         return """
-                Hola,
+                Estimado cliente,
 
-                Se detecto un evento pendiente de notificacion para el cliente %s.
+                Le informamos que se ha detectado el siguiente evento en una de sus unidades:
 
-                Unidad: %s
-                Descripcion de unidad: %s
-                Codigo de evento: %s
-                Descripcion del evento: %s
-                Fecha del evento: %s
+                Cliente: %s
+                Placa: %s
+                Evento: %s
+                Ubicacion: %s
+                Coordenadas: %s, %s%s
 
                 Este correo fue generado automaticamente por UVICAR Schedule.
                 """.formatted(
                 notification.clientName(),
-                notification.unitCode(),
-                notification.unitDescription(),
-                notification.triggeringEventCode(),
-                notification.triggeringEventDescription(),
-                occurredAt
+                notification.plate(),
+                notification.event(),
+                blankAsNotReported(notification.location()),
+                blankAsNotReported(notification.latitude()),
+                blankAsNotReported(notification.longitude()),
+                mapsLine
         );
+    }
+
+    private static String blankAsNotReported(final String value) {
+        return value == null || value.isBlank() ? "No informado" : value;
     }
 
     private static String maskEmail(final String email) {
@@ -130,6 +136,13 @@ public class SmtpEventEmailSender implements EventEmailSender {
             return "***" + email.substring(Math.max(atIndex, 0));
         }
         return email.charAt(0) + "***" + email.substring(atIndex);
+    }
+
+    private static String maskEmails(final List<String> emails) {
+        return emails.stream()
+                .map(SmtpEventEmailSender::maskEmail)
+                .toList()
+                .toString();
     }
 
     private static String safeValue(final String value) {

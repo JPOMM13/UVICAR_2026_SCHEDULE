@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface EventEmailNotificationFacade {
 
-    List<PendingEventEmailNotification> listPendingNotifications();
+    List<PendingEventEmailNotification> listPendingNotifications(int razTra);
 
-    EventEmailJobResult processPendingNotifications();
+    EventEmailJobResult processPendingNotifications(int razTra);
 }

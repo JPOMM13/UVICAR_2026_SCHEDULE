@@ -18,12 +18,12 @@ public class EventEmailNotificationFacadeImpl implements EventEmailNotificationF
     }
 
     @Override
-    public List<PendingEventEmailNotification> listPendingNotifications() {
-        return service.listPendingNotifications();
+    public List<PendingEventEmailNotification> listPendingNotifications(final int razTra) {
+        return service.listPendingNotifications(razTra);
     }
 
     @Override
-    public EventEmailJobResult processPendingNotifications() {
-        return service.processPendingNotifications();
+    public EventEmailJobResult processPendingNotifications(final int razTra) {
+        return service.processPendingNotifications(razTra);
     }
 }

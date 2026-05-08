@@ -14,12 +14,13 @@ public class LoggingEventEmailSender implements EventEmailSender {
 
     @Override
     public void send(final PendingEventEmailNotification notification) {
-        LOGGER.info("[event-email] Mock send to={} client={} unit={} eventCode={} eventDescription={} occurredAt={}",
+        LOGGER.info("[event-email] Mock send to={} client={} plate={} event={} latitude={} longitude={} location={}",
                 notification.recipientEmail(),
                 notification.clientName(),
-                notification.unitCode(),
-                notification.triggeringEventCode(),
-                notification.triggeringEventDescription(),
-                notification.eventOccurredAt());
+                notification.plate(),
+                notification.event(),
+                notification.latitude(),
+                notification.longitude(),
+                notification.location());
     }
 }

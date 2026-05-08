@@ -2,6 +2,7 @@
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/config/ShedLockConfig.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/jobs/SampleScheduledJobs.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/notifications/controller/EventEmailNotificationController.java
+/Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/notifications/dto/EventEmailDispatchRequest.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/notifications/dto/EventEmailJobResult.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/notifications/dto/PendingEventEmailNotification.java
 /Users/johnpaulmanchegomedina/Documents/PROYECTOS/TRABAJO/UVICAR/NUEVOS-SERVICIOS-2026/UVICAR_2026_SCHEDULE/src/main/java/com/jpomm/schedulerbase/notifications/facade/EventEmailNotificationFacade.java

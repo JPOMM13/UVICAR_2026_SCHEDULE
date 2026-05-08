@@ -6,9 +6,7 @@ import org.mockito.ArgumentCaptor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -22,7 +20,7 @@ class SmtpEventEmailSenderTest {
         final SmtpEventEmailSender sender = new SmtpEventEmailSender(
                 mailSender,
                 "john.manchego.medina@gmail.com",
-                "[UVICAR] Evento detectado para unidad %s",
+                "[UVICAR] Alerta de evento para placa %s",
                 "smtp.gmail.com",
                 587,
                 "john.manchego.medina@gmail.com",
@@ -32,13 +30,13 @@ class SmtpEventEmailSenderTest {
         );
 
         final PendingEventEmailNotification notification = new PendingEventEmailNotification(
-                "john.manchego.medina@gmail.com",
-                "Transportes Acme",
-                "UNI-24794",
-                "Volvo FH 540",
-                "SIN_GPS",
-                "Unidad sin comunicacion GPS",
-                OffsetDateTime.of(2026, 4, 7, 12, 30, 0, 0, ZoneOffset.UTC)
+                "john.manchego.medina@gmail.com,leslie@laencontre.com",
+                "AGROINDUSTRIAS SAN ANDRES S.A.C.",
+                "424722",
+                "Energia Principal desconectada",
+                "-12.58427660",
+                "-76.66905830",
+                "LIMA / CANETE / SANTA CRUZ DE FLORES -"
         );
 
         sender.send(notification);
@@ -48,10 +46,12 @@ class SmtpEventEmailSenderTest {
 
         final SimpleMailMessage sentMessage = messageCaptor.getValue();
         assertEquals("john.manchego.medina@gmail.com", sentMessage.getFrom());
-        assertEquals("john.manchego.medina@gmail.com", sentMessage.getTo()[0]);
-        assertEquals("[UVICAR] Evento detectado para unidad UNI-24794", sentMessage.getSubject());
-        assertTrue(sentMessage.getText().contains("Transportes Acme"));
-        assertTrue(sentMessage.getText().contains("SIN_GPS"));
-        assertTrue(sentMessage.getText().contains("UNI-24794"));
+        assertArrayEquals(new String[]{"john.manchego.medina@gmail.com", "leslie@laencontre.com"}, sentMessage.getTo());
+        assertEquals("[UVICAR] Alerta de evento para placa 424722", sentMessage.getSubject());
+        assertTrue(sentMessage.getText().contains("AGROINDUSTRIAS SAN ANDRES S.A.C."));
+        assertTrue(sentMessage.getText().contains("Energia Principal desconectada"));
+        assertTrue(sentMessage.getText().contains("424722"));
+        assertTrue(sentMessage.getText().contains("LIMA / CANETE / SANTA CRUZ DE FLORES -"));
+        assertTrue(sentMessage.getText().contains("https://www.google.com/maps?q=-12.58427660,-76.66905830"));
     }
 }
